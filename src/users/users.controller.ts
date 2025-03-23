@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -9,22 +8,15 @@ import {
   HttpStatus,
   HttpCode,
 } from '@nestjs/common'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
+
 import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { ApiOperation } from '@nestjs/swagger'
 
 @Controller('users')
+@ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  @ApiOperation({
-    summary: 'Create user',
-  })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
-  }
 
   @Get()
   @ApiOperation({

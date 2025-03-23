@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EntityNotFoundError, Repository } from 'typeorm'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 
@@ -12,8 +11,9 @@ export class UsersService {
     private readonly usersRepo: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.usersRepo.save(createUserDto)
+  create(data: Partial<User>) {
+    const user = this.usersRepo.create(data)
+    return this.usersRepo.save(user)
   }
 
   findAll() {
@@ -21,11 +21,20 @@ export class UsersService {
       order: {
         updatedAt: 'DESC',
       },
+      relations: ['responses'],
     })
   }
 
   findOne(id: string) {
     return this.usersRepo.findOneByOrFail({ id })
+  }
+
+  findOneForAuth(email: string) {
+    return this.usersRepo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email })
+      .getOne()
   }
 
   async update(id: string, dto: UpdateUserDto) {

@@ -7,6 +7,8 @@ declare global {
       DB_USER: string
       DB_PASSWORD: string
       DB_NAME: string
+      JWT_SECRET: string
+      IS_SEED_ENABLED: 'true' | 'false'
     }
   }
 }
