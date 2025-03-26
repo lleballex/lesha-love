@@ -9,6 +9,7 @@ declare global {
       DB_NAME: string
       JWT_SECRET: string
       IS_SEED_ENABLED: 'true' | 'false'
+      CORS_ORIGIN: string
     }
   }
 }

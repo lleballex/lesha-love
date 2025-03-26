@@ -11,6 +11,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
   app.useGlobalFilters(new EntityNotFoundFilter())
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('LeshaLove')
