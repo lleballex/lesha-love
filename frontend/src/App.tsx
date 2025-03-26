@@ -1,3 +1,5 @@
+import Vacancies from '@/components/base/vacancy/Vacancies'
+
 export default function App() {
-  return <div>Hello world</div>
+  return <Vacancies />
 }
