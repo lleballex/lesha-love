@@ -1,10 +1,8 @@
-# LeshaLove backend
+# LeshaLove frontend
 
-Backend part of LeshaLove project
+Frontend part of LeshaLove project
 
 ## Get started
-
-Create PostgreSQL database
 
 Create `.env` file and fill it with your values:
 
@@ -21,5 +19,5 @@ yarn
 Start development server:
 
 ```bash
-yarn start:dev
+yarn dev
 ```
