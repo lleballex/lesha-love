@@ -6,8 +6,8 @@ export enum VacancyStatus {
 }
 
 export const vacancyStatuses = {
-  [VacancyStatus.Active]: 'Active',
-  [VacancyStatus.Closed]: 'Closed',
+  [VacancyStatus.Active]: 'Активна',
+  [VacancyStatus.Closed]: 'Закрыта',
 }
 
 export interface Vacancy extends BaseEntity {
