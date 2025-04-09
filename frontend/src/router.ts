@@ -9,7 +9,7 @@ import LoginPage from '@/components/pages/auth/LoginPage'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: '',
     Component: RootLayout,
     children: [
       { index: true, Component: VacanciesPage },

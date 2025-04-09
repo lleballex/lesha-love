@@ -24,8 +24,9 @@ import { useLogin } from '@/api/auth/login'
 import { useMe } from '@/api/auth/me'
 
 import { formInitData, formResolver } from './utils'
+import Page from '@/components/special/Page'
 
-export default function LoginPage() {
+const LoginPageContent = () => {
   const navigate = useNavigate()
 
   const form = useForm({
@@ -52,52 +53,58 @@ export default function LoginPage() {
   }, [me, navigate])
 
   return (
-    <div className="flex items-center justify-center grow p-8">
-      <Card className="w-[450px]">
-        <CardHeader>
-          <CardTitle>Авторизация</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form className="contents" onSubmit={onSubmit}>
-            <CardContent className="flex flex-col gap-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Пароль</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter className="flex flex-col justify-center gap-4">
-              <Button className="w-full">Войти</Button>
-              <Link to={Routes.register}>
-                <Button type="button" variant="link">
-                  Регистрация
-                </Button>
-              </Link>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </div>
+    <Card className="w-[450px]">
+      <CardHeader>
+        <CardTitle>Авторизация</CardTitle>
+      </CardHeader>
+      <Form {...form}>
+        <form className="contents" onSubmit={onSubmit}>
+          <CardContent className="flex flex-col gap-6">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Пароль</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter className="flex flex-col justify-center gap-4">
+            <Button className="w-full">Войти</Button>
+            <Link to={Routes.register}>
+              <Button type="button" variant="link">
+                Регистрация
+              </Button>
+            </Link>
+          </CardFooter>
+        </form>
+      </Form>
+    </Card>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Page className="flex items-center justify-center">
+      <LoginPageContent />
+    </Page>
   )
 }
