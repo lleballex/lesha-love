@@ -5,8 +5,9 @@ import RemoteData from '@/components/special/RemoteData'
 import { useDeleteVacancy } from '@/api/vacancies/delete-vacancy'
 import { Routes } from '@/config/routes'
 import { vacancyStatuses } from '@/types/entities/vacancy'
+import Page from '@/components/special/Page'
 
-export default function VacancyPage() {
+const VacancyPageConent = () => {
   const { id: vacancyId } = useParams()
   const navigate = useNavigate()
 
@@ -46,5 +47,13 @@ export default function VacancyPage() {
         </div>
       )}
     />
+  )
+}
+
+export default function VacancyPage() {
+  return (
+    <Page>
+      <VacancyPageConent />
+    </Page>
   )
 }

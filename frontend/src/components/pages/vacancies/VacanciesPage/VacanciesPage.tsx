@@ -4,8 +4,9 @@ import { useVacancies } from '@/api/vacancies/get-vacancies'
 import RemoteData from '@/components/special/RemoteData'
 import VacancyCard from '@/components/base/vacancy/VacancyCard'
 import { Routes } from '@/config/routes'
+import Page from '@/components/special/Page'
 
-export default function VacanciesPage() {
+const VacanciesPageContent = () => {
   const vacancies = useVacancies()
 
   return (
@@ -31,5 +32,13 @@ export default function VacanciesPage() {
         )}
       />
     </div>
+  )
+}
+
+export default function VacancyPage() {
+  return (
+    <Page>
+      <VacanciesPageContent />
+    </Page>
   )
 }
