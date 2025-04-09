@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { HeartIcon } from 'lucide-react'
 
 import { useLogout } from '@/api/auth/logout'
 import { useMe } from '@/api/auth/me'
@@ -21,7 +22,8 @@ export default function RootLayoutHeader() {
 
   return (
     <header className="px-8 py-6 border-b flex items-center justify-between gap-6">
-      <Link to={Routes.home}>
+      <Link className="flex items-center gap-2" to={Routes.home}>
+        <HeartIcon className="fill-primary stroke-primary" />
         <h1 className="text-xl font-bold">Lesha Love</h1>
       </Link>
       <div>
