@@ -8,4 +8,6 @@ export const Routes = {
   newVacancy: '/new-vacancy',
   vacancy: (id: string) => `/vacancies/${id}`,
   updateVacancy: (id: string) => `/vacancies/${id}/edit`,
+
+  responses: '/responses',
 }

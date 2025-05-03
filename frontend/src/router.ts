@@ -6,6 +6,7 @@ import VacancyPage from '@/components/pages/vacancies/VacancyPage'
 import CreateVacancyPage from '@/components/pages/vacancies/CreateVacancyPage'
 import UpdateVacancyPage from '@/components/pages/vacancies/UpdateVacancyPage'
 import LoginPage from '@/components/pages/auth/LoginPage'
+import ResponsesPage from '@/components/pages/responses/ResponsesPage'
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
             Component: LoginPage,
           },
         ],
+      },
+      {
+        path: 'responses',
+        Component: ResponsesPage,
       },
     ],
   },

@@ -12,14 +12,17 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import VacancyStatus from '@/components/base/vacancy/VacancyStatus'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
+import { Response } from '@/types/entities/response'
+import ResponseStatus from '@/components/base/response/ResponseStatus'
 
 interface Props {
   vacancy: Vacancy
+  response?: Response
 }
 
-export default function VacancyCard({ vacancy }: Props) {
+export default function VacancyCard({ vacancy, response }: Props) {
   const me = useMe()
 
   return (
@@ -32,6 +35,7 @@ export default function VacancyCard({ vacancy }: Props) {
               me.value.role === UserRole.Recruiter && (
                 <VacancyStatus status={vacancy.status} />
               )}
+            {response && <ResponseStatus status={response.status} />}
             {vacancy.scope && (
               <Badge className="ml-auto">{vacancy.scope.name}</Badge>
             )}

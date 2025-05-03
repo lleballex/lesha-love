@@ -8,7 +8,10 @@ interface Data {
 export const useCreateMyResponse = createUseMutation(
   ({ vacancyId }: Data) => Axios.post(`/vacancies/${vacancyId}/my-response`),
   {
-    invalidateQueriesFn: () => [{ queryKey: ['responses'] }],
+    invalidateQueriesFn: () => [
+      { queryKey: ['responses'] },
+      { queryKey: ['myResponses'] },
+    ],
     onSuccess: () => {
       alert('Отклик на вакансию успешно сохранен')
     },

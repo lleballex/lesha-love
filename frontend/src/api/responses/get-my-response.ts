@@ -7,7 +7,7 @@ interface Params {
 }
 
 export const useMyResponse = createUseQuery(
-  'responses',
+  'myResponses',
   ({ vacancyId }: Params) =>
     Axios.get<Response>(`/vacancies/${vacancyId}/my-response`).then(
       (res) => res.data,
