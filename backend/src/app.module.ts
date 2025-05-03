@@ -16,6 +16,7 @@ import { Recruiter } from '@/users/entities/recruiter.entity'
 import { Candidate } from '@/users/entities/candidate.entity'
 import { ScopesModule } from '@/scopes/scopes.module'
 import { ResponsesModule } from '@/responses/responses.module'
+import { MeModule } from '@/me/me.module'
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ResponsesModule } from '@/responses/responses.module'
     ResponsesModule,
     ScopesModule,
     SeederModule,
+    MeModule,
   ],
 })
 export class AppModule implements NestModule {
