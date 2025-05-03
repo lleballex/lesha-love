@@ -1,4 +1,6 @@
 import { BaseEntity } from './base-entity'
+import { Candidate } from './candidate'
+import { Recruiter } from './recruiter'
 
 export enum UserRole {
   Recruiter = 'recruiter',
@@ -6,9 +8,8 @@ export enum UserRole {
 }
 
 export interface User extends BaseEntity {
-  name: string
-  surname: string
-  patronymic: string | null
   email: string
   role: UserRole
+  recruiter?: Recruiter
+  candidate?: Candidate
 }

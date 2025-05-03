@@ -25,7 +25,7 @@ export default function Page({
   })
 
   if (isProtected) {
-    if (me.status === 'success' && roles && !roles?.includes(me.value.role)) {
+    if (me.status === 'success' && roles && !roles.includes(me.value.role)) {
       return <Navigate to={Routes.home} replace />
     }
 

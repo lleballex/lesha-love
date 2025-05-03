@@ -1,7 +1,18 @@
-import { Vacancy } from '@/types/entities/vacancy'
+import { Vacancy, VacancyStatus } from '@/types/entities/vacancy'
 import { Axios } from '@/api/utils/axios'
 import { createUseQuery } from '@/api/utils/create-use-query'
+import { Paginated } from '@/types/paginated'
 
-export const useVacancies = createUseQuery('vacancies', () =>
-  Axios.get<Vacancy[]>('/vacancies').then((res) => res.data),
+interface Params {
+  query?: string
+  scope?: string
+  status?: VacancyStatus
+  page?: number
+  take?: number
+}
+
+export const useVacancies = createUseQuery('vacancies', (params: Params) =>
+  Axios.get<Paginated<Vacancy>>('/vacancies', { params }).then(
+    (res) => res.data,
+  ),
 )

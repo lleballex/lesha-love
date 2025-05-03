@@ -55,7 +55,7 @@ const LoginPageContent = () => {
   return (
     <Card className="w-[450px]">
       <CardHeader>
-        <CardTitle>Авторизация</CardTitle>
+        <CardTitle className="text-2xl font-semibold">Авторизация</CardTitle>
       </CardHeader>
       <Form {...form}>
         <form className="contents" onSubmit={onSubmit}>
