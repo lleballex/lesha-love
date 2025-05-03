@@ -8,7 +8,7 @@ import VacancyCard from '@/components/base/vacancy/VacancyCard'
 import { Routes } from '@/config/routes'
 import Page from '@/components/special/Page'
 import { Button } from '@/components/ui/button'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Input } from '@/components/ui/input'
 import {
@@ -46,13 +46,7 @@ const VacanciesPageContent = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      <div className="flex items-center justify-between gap-8">
         <h1 className="text-4xl font-extrabold">Вакансии</h1>
         {me.status === 'success' && me.value.role === UserRole.Recruiter && (
           <Link to={Routes.newVacancy}>

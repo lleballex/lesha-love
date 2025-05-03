@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Routes } from '@/config/routes'
 import { useLogin } from '@/api/auth/login'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 
 import { formInitData, formResolver } from './utils'
 import Page from '@/components/special/Page'

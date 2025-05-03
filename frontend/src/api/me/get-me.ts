@@ -4,7 +4,7 @@ import { User } from '@/types/entities/user'
 
 export const useMe = createUseQuery(
   'me',
-  () => Axios.get<User>('/auth/me').then((res) => res.data),
+  () => Axios.get<User>('/me').then((res) => res.data),
   {
     retry: false,
   },

@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Navigate } from 'react-router'
 
 import { UserRole } from '@/types/entities/user'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 import RemoteData from '@/components/special/RemoteData'
 import { Routes } from '@/config/routes'
 import { cn } from '@/lib/utils'

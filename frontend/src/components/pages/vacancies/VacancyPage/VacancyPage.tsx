@@ -9,7 +9,7 @@ import {
   vacancyWorkSchedules,
 } from '@/types/entities/vacancy'
 import Page from '@/components/special/Page'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'

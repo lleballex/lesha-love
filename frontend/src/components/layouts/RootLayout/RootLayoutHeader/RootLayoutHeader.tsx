@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router'
 import { HeartIcon } from 'lucide-react'
 
 import { useLogout } from '@/api/auth/logout'
-import { useMe } from '@/api/auth/me'
+import { useMe } from '@/api/me/get-me'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -50,6 +50,17 @@ export default function RootLayoutHeader() {
               })}
             >
               Вакансии
+            </span>
+          )}
+        </NavLink>
+        <NavLink to={Routes.responses}>
+          {({ isActive }) => (
+            <span
+              className={cn('text-sm hover:underline underline-offset-4', {
+                underline: isActive,
+              })}
+            >
+              Отклики
             </span>
           )}
         </NavLink>
