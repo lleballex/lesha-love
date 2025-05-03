@@ -7,10 +7,16 @@ import {
   // HttpStatus,
   Param,
   // Patch,
-  // Post,
+  Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
+import { Request } from 'express'
+
+import { ResponsesService } from '@/responses/responses.service'
+import { IsCandidateGuard } from '@/auth/guards/is-candidate.guard'
 
 import { VacanciesService } from './vacancies.service'
 // import { CreateVacancyDto } from './dto/create-vacancy.dto'
@@ -19,7 +25,10 @@ import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 
 @Controller('vacancies')
 export class VacanciesController {
-  constructor(private readonly vacanciesService: VacanciesService) {}
+  constructor(
+    private readonly vacanciesService: VacanciesService,
+    private readonly responsesService: ResponsesService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all vacancies' })
@@ -39,6 +48,30 @@ export class VacanciesController {
   })
   findOne(@Param('id') id: string) {
     return this.vacanciesService.findOne(id)
+  }
+
+  @Get(':id/my-response')
+  @UseGuards(IsCandidateGuard)
+  @ApiOperation({
+    summary: 'Get a response to the vacancy by id for the current candidate',
+  })
+  async findMyResponse(@Param('id') id: string, @Req() req: Request) {
+    return this.responsesService.findMy({
+      userId: req.user!.id,
+      vacancyId: id,
+    })
+  }
+
+  @Post(':id/my-response')
+  @UseGuards(IsCandidateGuard)
+  @ApiOperation({
+    summary: 'Create a response to the vacancy by id for the current candidate',
+  })
+  async createMyResponse(@Param('id') id: string, @Req() req: Request) {
+    return this.responsesService.createMy({
+      userId: req.user!.id,
+      vacancyId: id,
+    })
   }
 
   // @Patch(':id')

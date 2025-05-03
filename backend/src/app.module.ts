@@ -15,6 +15,7 @@ import { Scope } from '@/scopes/entities/scope.entity'
 import { Recruiter } from '@/users/entities/recruiter.entity'
 import { Candidate } from '@/users/entities/candidate.entity'
 import { ScopesModule } from '@/scopes/scopes.module'
+import { ResponsesModule } from '@/responses/responses.module'
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ScopesModule } from '@/scopes/scopes.module'
     UsersModule,
     AuthModule,
     VacanciesModule,
+    ResponsesModule,
     ScopesModule,
     SeederModule,
   ],
