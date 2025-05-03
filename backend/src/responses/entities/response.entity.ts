@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm'
 
-import { User } from '@/users/entities/user.entity'
 import { Vacancy } from '@/vacancies/entities/vacancy.entity'
 import { BaseEntity } from '@/core/entities/base-entity'
+import { Candidate } from '@/users/entities/candidate.entity'
 
 export enum ResponseStatus {
   Pending = 'pending',
@@ -15,9 +15,15 @@ export class Response extends BaseEntity {
   @Column({ enum: ResponseStatus, default: ResponseStatus.Pending })
   status: ResponseStatus
 
-  @ManyToOne(() => Vacancy, (vacancy) => vacancy.responses)
+  @ManyToOne(() => Vacancy, (vacancy) => vacancy.responses, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   vacancy?: Vacancy
 
-  @ManyToOne(() => User, (user) => user.responses)
-  user?: User
+  @ManyToOne(() => Candidate, (candidate) => candidate.responses, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  candidate?: Candidate
 }

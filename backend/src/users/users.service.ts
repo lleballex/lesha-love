@@ -26,7 +26,10 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.usersRepo.findOneByOrFail({ id })
+    return this.usersRepo.findOneOrFail({
+      where: { id },
+      relations: ['recruiter', 'candidate'],
+    })
   }
 
   findOneForAuth(email: string) {

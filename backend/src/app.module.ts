@@ -11,6 +11,10 @@ import { Vacancy } from '@/vacancies/entities/vacancy.entity'
 import { Response } from '@/responses/entities/response.entity'
 import { SeederModule } from '@/seeder/seeder.module'
 import { VacanciesModule } from '@/vacancies/vacancies.module'
+import { Scope } from '@/scopes/entities/scope.entity'
+import { Recruiter } from '@/users/entities/recruiter.entity'
+import { Candidate } from '@/users/entities/candidate.entity'
+import { ScopesModule } from '@/scopes/scopes.module'
 
 @Module({
   imports: [
@@ -22,8 +26,8 @@ import { VacanciesModule } from '@/vacancies/vacancies.module'
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Vacancy, Response],
-      synchronize: true,
+      entities: [User, Recruiter, Candidate, Scope, Vacancy, Response], // TODO: extract somewhere
+      synchronize: true, // TODO: use migrations
     }),
     JwtModule.registerAsync({
       global: true,
@@ -37,8 +41,9 @@ import { VacanciesModule } from '@/vacancies/vacancies.module'
 
     UsersModule,
     AuthModule,
-    SeederModule,
     VacanciesModule,
+    ScopesModule,
+    SeederModule,
   ],
 })
 export class AppModule implements NestModule {

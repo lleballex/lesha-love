@@ -1,10 +1,10 @@
 import { Response, ResponseStatus } from '@/responses/entities/response.entity'
-import { User } from '@/users/entities/user.entity'
+import { Candidate } from '@/users/entities/candidate.entity'
+import { Vacancy } from '@/vacancies/entities/vacancy.entity'
 
-interface ResponseSeed extends Omit<Response, 'user'> {
-  user: {
-    id: User['id']
-  }
+interface ResponseSeed extends Omit<Response, 'vacancy' | 'candidate'> {
+  vacancy: Pick<Vacancy, 'id'>
+  candidate: Pick<Candidate, 'id'>
 }
 
 export const responsesSeed: ResponseSeed[] = [
@@ -13,8 +13,11 @@ export const responsesSeed: ResponseSeed[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     status: ResponseStatus.Pending,
-    user: {
-      id: 'c84f8cf2-ac10-4e01-a6d8-2383b3130e9d',
+    vacancy: {
+      id: 'e6407993-25a4-4854-b689-2629dc4ad052',
+    },
+    candidate: {
+      id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
   },
   {
@@ -22,8 +25,11 @@ export const responsesSeed: ResponseSeed[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     status: ResponseStatus.Approved,
-    user: {
-      id: 'c84f8cf2-ac10-4e01-a6d8-2383b3130e9d',
+    vacancy: {
+      id: 'e6407993-25a4-4854-b689-2629dc4ad052',
+    },
+    candidate: {
+      id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
   },
   {
@@ -31,8 +37,11 @@ export const responsesSeed: ResponseSeed[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     status: ResponseStatus.Rejected,
-    user: {
-      id: 'c84f8cf2-ac10-4e01-a6d8-2383b3130e9d',
+    vacancy: {
+      id: 'e6407993-25a4-4854-b689-2629dc4ad052',
+    },
+    candidate: {
+      id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
   },
 ]

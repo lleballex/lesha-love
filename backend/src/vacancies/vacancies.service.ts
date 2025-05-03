@@ -4,6 +4,7 @@ import { EntityNotFoundError, Repository } from 'typeorm'
 
 import { Vacancy } from './entities/vacancy.entity'
 import { UpdateVacancyDto } from './dto/update-vacancy.dto'
+import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 
 @Injectable()
 export class VacanciesService {
@@ -12,12 +13,40 @@ export class VacanciesService {
     private readonly vacanciesRepo: Repository<Vacancy>,
   ) {}
 
-  findAll() {
-    return this.vacanciesRepo.find()
+  async findAll(dto: FindAllVacanciesDto) {
+    const qb = this.vacanciesRepo
+      .createQueryBuilder('vacancy')
+      .leftJoinAndSelect('vacancy.scope', 'scope')
+      .leftJoinAndSelect('vacancy.recruiter', 'recruiter')
+
+    if (dto.query) {
+      qb.andWhere('vacancy.title ILIKE :query', { query: `%${dto.query}%` })
+    }
+    if (dto.scope) {
+      qb.andWhere('scope.id = :scopeId', { scopeId: dto.scope })
+    }
+    if (dto.status) {
+      qb.andWhere('vacancy.status = :status', { status: dto.status })
+    }
+
+    qb.orderBy('vacancy.createdAt', 'DESC')
+      .skip((dto.page - 1) * dto.take)
+      .take(dto.take)
+
+    const [data, totalData] = await qb.getManyAndCount()
+
+    return {
+      data,
+      totalData,
+      totalPages: Math.ceil(totalData / dto.take),
+    }
   }
 
   findOne(id: string) {
-    return this.vacanciesRepo.findOneByOrFail({ id })
+    return this.vacanciesRepo.findOneOrFail({
+      where: { id },
+      relations: ['scope', 'recruiter'],
+    })
   }
 
   create(data: Partial<Vacancy>) {

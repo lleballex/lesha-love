@@ -13,7 +13,7 @@ import { Request } from 'express'
 import { UsersService } from '@/users/users.service'
 
 import { LoginDto } from './dto/login.dto'
-import { RegisterDto } from './dto/register.dto'
+// import { RegisterDto } from './dto/register.dto'
 import { AuthService } from './auth.service'
 import { IsAuthedGuard } from './guards/is-authed.guard'
 
@@ -43,9 +43,9 @@ export class AuthController {
     return res
   }
 
-  @Post('register')
-  @ApiOperation({ summary: 'Register and generate access token' })
-  register(@Body() body: RegisterDto) {
-    return this.authService.register(body)
-  }
+  // @Post('register')
+  // @ApiOperation({ summary: 'Register and generate access token' })
+  // register(@Body() body: RegisterDto) {
+  //   return this.authService.register(body)
+  // }
 }

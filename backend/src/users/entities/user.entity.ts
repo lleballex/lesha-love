@@ -1,6 +1,9 @@
-import { Column, Entity, OneToMany } from 'typeorm'
+import { Column, Entity, OneToOne } from 'typeorm'
+
 import { BaseEntity } from '@/core/entities/base-entity'
-import { Response } from '@/responses/entities/response.entity'
+
+import { Recruiter } from './recruiter.entity'
+import { Candidate } from './candidate.entity'
 
 export enum UserRole {
   Recruiter = 'recruiter',
@@ -9,15 +12,6 @@ export enum UserRole {
 
 @Entity()
 export class User extends BaseEntity {
-  @Column('varchar')
-  name: string
-
-  @Column('varchar')
-  surname: string
-
-  @Column('varchar', { nullable: true })
-  patronymic: string | null
-
   @Column('varchar', { unique: true })
   email: string
 
@@ -27,6 +21,15 @@ export class User extends BaseEntity {
   @Column({ enum: UserRole })
   role: UserRole
 
-  @OneToMany(() => Response, (response) => response.user)
-  responses?: Response
+  @OneToOne(() => Recruiter, (recruiter) => recruiter.user, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  recruiter?: Recruiter
+
+  @OneToOne(() => Candidate, (candidate) => candidate.user, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  candidate?: Candidate
 }
