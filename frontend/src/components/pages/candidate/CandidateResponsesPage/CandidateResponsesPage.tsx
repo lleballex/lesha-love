@@ -4,7 +4,7 @@ import { UserRole } from '@/types/entities/user'
 
 export default function CandidateResponsesPage() {
   return (
-    <Page roles={[UserRole.Candidate]}>
+    <Page roles={[UserRole.Candidate]} protected>
       <Responses role={UserRole.Candidate} />
     </Page>
   )

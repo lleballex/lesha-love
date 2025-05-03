@@ -1,1 +1,1 @@
-export { default } from './CandidateVacacyPage'
+export { default } from './CandidateVacancyPage'

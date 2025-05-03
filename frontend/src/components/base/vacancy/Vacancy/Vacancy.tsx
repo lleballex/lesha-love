@@ -8,7 +8,6 @@ import {
   vacancyWorkFormats,
   vacancyWorkSchedules,
 } from '@/types/entities/vacancy'
-import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -17,16 +16,17 @@ import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
 
-export default function Vacancy() {
+interface Props {
+  role: UserRole
+}
+
+export default function Vacancy({ role }: Props) {
   const { id: vacancyId } = useParams()
 
-  const me = useMe()
   const vacancy = useVacancy({ id: vacancyId! })
   const myResponse = useMyResponse(
     { vacancyId: vacancyId! },
-    {
-      enabled: me.status === 'success' && me.value.role === UserRole.Candidate,
-    },
+    { enabled: role === UserRole.Candidate },
   )
 
   const { mutate: createMyResponse_ } = useCreateMyResponse()
