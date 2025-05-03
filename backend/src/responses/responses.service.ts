@@ -4,7 +4,7 @@ import {
   Injectable,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindOptionsWhere, Repository } from 'typeorm'
 
 import { VacancyStatus } from '@/vacancies/entities/vacancy.entity'
 import { VacanciesService } from '@/vacancies/vacancies.service'
@@ -21,6 +21,14 @@ export class ResponsesService {
     private readonly vacanciesService: VacanciesService,
     private readonly usersService: UsersService,
   ) {}
+
+  findAll(where: FindOptionsWhere<Response>) {
+    return this.responsesRepo.find({
+      where,
+      relations: ['vacancy', 'vacancy.scope'],
+      order: { createdAt: 'DESC' },
+    })
+  }
 
   async findMy({ userId, vacancyId }: { userId: string; vacancyId: string }) {
     const user = await this.usersService.findOne(userId)
