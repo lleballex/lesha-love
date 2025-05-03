@@ -14,12 +14,28 @@ import { UserRole } from '@/types/entities/user'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useCreateMyResponse } from '@/api/responses/create-my-response'
+import { useMyResponse } from '@/api/responses/get-my-response'
+import { responseStatuses } from '@/types/entities/response'
 
 const VacancyPageConent = () => {
   const { id: vacancyId } = useParams()
 
   const me = useMe()
   const vacancy = useVacancy({ id: vacancyId! })
+  const myResponse = useMyResponse(
+    { vacancyId: vacancyId! },
+    {
+      enabled: me.status === 'success' && me.value.role === UserRole.Candidate,
+    },
+  )
+
+  const { mutate: createMyResponse_ } = useCreateMyResponse()
+  const createMyResponse = () => {
+    createMyResponse_({
+      vacancyId: vacancyId!,
+    })
+  }
 
   return (
     <RemoteData
@@ -28,9 +44,9 @@ const VacancyPageConent = () => {
         <div className="flex flex-col gap-8">
           <div className="flex items-center justify-between gap-8">
             <h1 className="text-4xl font-extrabold">{vacancy.title}</h1>
-            {me.status === 'success' &&
-              me.value.role === UserRole.Candidate && (
-                <Button>Откликнуться</Button>
+            {myResponse.status === 'error' &&
+              myResponse.error.status === 404 && (
+                <Button onClick={createMyResponse}>Откликнуться</Button>
               )}
           </div>
 
@@ -46,86 +62,110 @@ const VacancyPageConent = () => {
             </div>
           )}
 
-          <div className="flex gap-8">
-            <Card className="w-full">
-              <CardContent className="flex flex-col gap-3">
-                <p className="text-sm text-muted-foreground">Опыт</p>
-                <p>{vacancyWorkExperiences[vacancy.workExperience]}</p>
-              </CardContent>
-            </Card>
-            <Card className="w-full">
-              <CardContent className="flex flex-col gap-3">
-                <p className="text-sm text-muted-foreground">Формат работы</p>
-                <p>{vacancyWorkFormats[vacancy.workFormat]}</p>
-              </CardContent>
-            </Card>
-            <Card className="w-full">
-              <CardContent className="flex flex-col gap-3">
-                <p className="text-sm text-muted-foreground">График</p>
-                <p>{vacancyWorkSchedules[vacancy.workSchedule]}</p>
-              </CardContent>
-            </Card>
-          </div>
+          <div className="flex items-start gap-8">
+            <div className="flex flex-col gap-8">
+              <div className="flex gap-8">
+                <Card className="w-full">
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">Опыт</p>
+                    <p>{vacancyWorkExperiences[vacancy.workExperience]}</p>
+                  </CardContent>
+                </Card>
+                <Card className="w-full">
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Формат работы
+                    </p>
+                    <p>{vacancyWorkFormats[vacancy.workFormat]}</p>
+                  </CardContent>
+                </Card>
+                <Card className="w-full">
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">График</p>
+                    <p>{vacancyWorkSchedules[vacancy.workSchedule]}</p>
+                  </CardContent>
+                </Card>
+              </div>
 
-          <div className="flex gap-8">
-            <Card className="w-full">
-              <CardContent className="flex flex-col gap-3">
-                <p className="text-sm text-muted-foreground">З/п</p>
-                {vacancy.salaryFrom !== null || vacancy.salaryTo !== null ? (
-                  <p>
-                    {vacancy.salaryFrom !== null &&
-                      `от ${vacancy.salaryFrom} ₽`}{' '}
-                    {vacancy.salaryTo !== null && `до ${vacancy.salaryTo} ₽`}
-                  </p>
-                ) : (
-                  <p>Не указано</p>
+              <div className="flex gap-8">
+                <Card className="w-full">
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">З/п</p>
+                    {vacancy.salaryFrom !== null ||
+                    vacancy.salaryTo !== null ? (
+                      <p>
+                        {vacancy.salaryFrom !== null &&
+                          `от ${vacancy.salaryFrom} ₽`}{' '}
+                        {vacancy.salaryTo !== null &&
+                          `до ${vacancy.salaryTo} ₽`}
+                      </p>
+                    ) : (
+                      <p>Не указано</p>
+                    )}
+                  </CardContent>
+                </Card>
+                {vacancy.scope && (
+                  <Card className="w-full">
+                    <CardContent className="flex flex-col gap-3">
+                      <p className="text-sm text-muted-foreground">
+                        Направление
+                      </p>
+                      <p>{vacancy.scope.name}</p>
+                    </CardContent>
+                  </Card>
                 )}
-              </CardContent>
-            </Card>
-            {vacancy.scope && (
-              <Card className="w-full">
-                <CardContent className="flex flex-col gap-3">
-                  <p className="text-sm text-muted-foreground">Направление</p>
-                  <p>{vacancy.scope.name}</p>
+                <Card className="w-full">
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Дата создания вакансии
+                    </p>
+                    <p>{dayjs(vacancy.createdAt).format('D MMMM YYYY')}</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardContent className="flex gap-6 flex-wrap">
+                  <div className="flex flex-col gap-2 w-full">
+                    <p className="font-bold">Описание</p>
+                    <p>{vacancy.description}</p>
+                  </div>
+                  {vacancy.responsibilities && (
+                    <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
+                      <p className="font-bold">Задачи</p>
+                      <p>{vacancy.responsibilities}</p>
+                    </div>
+                  )}
+                  {vacancy.requirements && (
+                    <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
+                      <p className="font-bold">Ожидания от соискателя</p>
+                      <p>{vacancy.requirements}</p>
+                    </div>
+                  )}
+                  {vacancy.conditions && (
+                    <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
+                      <p className="font-bold">Условия</p>
+                      <p>{vacancy.conditions}</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
-            )}
-            <Card className="w-full">
-              <CardContent className="flex flex-col gap-3">
-                <p className="text-sm text-muted-foreground">
-                  Дата создания вакансии
-                </p>
-                <p>{dayjs(vacancy.createdAt).format('D MMMM YYYY')}</p>
-              </CardContent>
-            </Card>
-          </div>
+            </div>
 
-          <Card>
-            <CardContent className="flex gap-6 flex-wrap">
-              <div className="flex flex-col gap-2 w-full">
-                <p className="font-bold">Описание</p>
-                <p>{vacancy.description}</p>
-              </div>
-              {vacancy.responsibilities && (
-                <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
-                  <p className="font-bold">Задачи</p>
-                  <p>{vacancy.responsibilities}</p>
-                </div>
+            <div className="w-[300px] shrink-0">
+              {myResponse.status === 'success' && (
+                <Card>
+                  <CardContent className="flex flex-col gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Статус отклика
+                    </p>
+                    {/* TODO: use ResponseStatus component */}
+                    <p>{responseStatuses[myResponse.value.status]}</p>
+                  </CardContent>
+                </Card>
               )}
-              {vacancy.requirements && (
-                <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
-                  <p className="font-bold">Ожидания от соискателя</p>
-                  <p>{vacancy.requirements}</p>
-                </div>
-              )}
-              {vacancy.conditions && (
-                <div className="flex flex-col gap-2 w-[calc(50%-var(--spacing)*6/2)]">
-                  <p className="font-bold">Условия</p>
-                  <p>{vacancy.conditions}</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     />
