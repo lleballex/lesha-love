@@ -8,7 +8,6 @@ import {
   vacancyWorkFormats,
   vacancyWorkSchedules,
 } from '@/types/entities/vacancy'
-import Page from '@/components/special/Page'
 import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Button } from '@/components/ui/button'
@@ -18,7 +17,7 @@ import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
 
-const VacancyPageConent = () => {
+export default function Vacancy() {
   const { id: vacancyId } = useParams()
 
   const me = useMe()
@@ -169,13 +168,5 @@ const VacancyPageConent = () => {
         </div>
       )}
     />
-  )
-}
-
-export default function VacancyPage() {
-  return (
-    <Page>
-      <VacancyPageConent />
-    </Page>
   )
 }

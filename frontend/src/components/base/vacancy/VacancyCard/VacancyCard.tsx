@@ -7,12 +7,10 @@ import {
   vacancyWorkFormats,
   vacancyWorkSchedules,
 } from '@/types/entities/vacancy'
-import { Routes } from '@/config/routes'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import VacancyStatus from '@/components/base/vacancy/VacancyStatus'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Response } from '@/types/entities/response'
 import ResponseStatus from '@/components/base/response/ResponseStatus'
@@ -20,22 +18,23 @@ import ResponseStatus from '@/components/base/response/ResponseStatus'
 interface Props {
   vacancy: Vacancy
   response?: Response
+  link: string
+  role: UserRole
 }
 
-export default function VacancyCard({ vacancy, response }: Props) {
-  const me = useMe()
-
+export default function VacancyCard({ vacancy, response, link, role }: Props) {
   return (
-    <Link to={Routes.vacancy(vacancy.id)}>
+    <Link to={link}>
       <Card>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-center gap-8 text-sm text-muted-foreground">
             <p>От {dayjs(vacancy.createdAt).format('DD MMMM YYYY')}</p>
-            {me.status === 'success' &&
-              me.value.role === UserRole.Recruiter && (
-                <VacancyStatus status={vacancy.status} />
-              )}
-            {response && <ResponseStatus status={response.status} />}
+            {role === UserRole.Recruiter && (
+              <VacancyStatus status={vacancy.status} />
+            )}
+            {role === UserRole.Candidate && response && (
+              <ResponseStatus status={response.status} />
+            )}
             {vacancy.scope && (
               <Badge className="ml-auto">{vacancy.scope.name}</Badge>
             )}
@@ -61,7 +60,7 @@ export default function VacancyCard({ vacancy, response }: Props) {
             )}
           </div>
 
-          {me.status === 'success' && me.value.role === UserRole.Recruiter && (
+          {role === UserRole.Recruiter && (
             <>
               <Separator />
               <p className="text-muted-foreground">

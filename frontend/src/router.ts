@@ -1,30 +1,20 @@
 import { createBrowserRouter } from 'react-router'
 
 import RootLayout from '@/components/layouts/RootLayout'
-import VacanciesPage from '@/components/pages/vacancies/VacanciesPage'
-import VacancyPage from '@/components/pages/vacancies/VacancyPage'
-import CreateVacancyPage from '@/components/pages/vacancies/CreateVacancyPage'
-import UpdateVacancyPage from '@/components/pages/vacancies/UpdateVacancyPage'
 import LoginPage from '@/components/pages/auth/LoginPage'
-import ResponsesPage from '@/components/pages/responses/ResponsesPage'
+import HomePage from '@/components/pages/HomePage/HomePage'
+import CandidateVacanciesPage from '@/components/pages/candidate/CandidateVacanciesPage'
+import CandidateVacancyPage from '@/components/pages/candidate/CandidateVacancyPage'
+import CandidateResponsesPage from '@/components/pages/candidate/CandidateResponsesPage/CandidateResponsesPage'
 
 export const router = createBrowserRouter([
   {
     path: '',
     Component: RootLayout,
     children: [
-      { index: true, Component: VacanciesPage },
       {
-        path: 'new-vacancy',
-        Component: CreateVacancyPage,
-      },
-      {
-        path: 'vacancies/:id',
-        Component: VacancyPage,
-      },
-      {
-        path: 'vacancies/:id/edit',
-        Component: UpdateVacancyPage,
+        index: true,
+        Component: HomePage,
       },
       {
         path: 'auth',
@@ -36,8 +26,21 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: 'responses',
-        Component: ResponsesPage,
+        path: 'candidate',
+        children: [
+          {
+            path: 'vacancies',
+            Component: CandidateVacanciesPage,
+          },
+          {
+            path: 'vacancies/:id',
+            Component: CandidateVacancyPage,
+          },
+          {
+            path: 'responses',
+            Component: CandidateResponsesPage,
+          },
+        ],
       },
     ],
   },

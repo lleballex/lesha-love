@@ -16,8 +16,30 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Routes } from '@/config/routes'
 import { cn } from '@/lib/utils'
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { UserRole } from '@/types/entities/user'
+
+const HeaderLink = ({
+  link,
+  children,
+}: {
+  link: string
+  children?: ReactNode
+}) => {
+  return (
+    <NavLink to={link}>
+      {({ isActive }) => (
+        <span
+          className={cn('text-sm hover:underline underline-offset-4', {
+            underline: isActive,
+          })}
+        >
+          {children}
+        </span>
+      )}
+    </NavLink>
+  )
+}
 
 export default function RootLayoutHeader() {
   const me = useMe()
@@ -42,28 +64,14 @@ export default function RootLayoutHeader() {
         <h1 className="text-xl font-extrabold">Lesha Love</h1>
       </Link>
       <div className="flex items-center gap-8">
-        <NavLink to={Routes.vacancies}>
-          {({ isActive }) => (
-            <span
-              className={cn('text-sm hover:underline underline-offset-4', {
-                underline: isActive,
-              })}
-            >
-              Вакансии
-            </span>
-          )}
-        </NavLink>
-        <NavLink to={Routes.responses}>
-          {({ isActive }) => (
-            <span
-              className={cn('text-sm hover:underline underline-offset-4', {
-                underline: isActive,
-              })}
-            >
-              Отклики
-            </span>
-          )}
-        </NavLink>
+        {me.status === 'success' && me.value.role === UserRole.Candidate && (
+          <>
+            <HeaderLink link={Routes.candidate.vacancies}>Вакансии</HeaderLink>
+            <HeaderLink link={Routes.candidate.responses}>
+              Мои откликии
+            </HeaderLink>
+          </>
+        )}
 
         {me.status !== 'success' && (
           <Link to={Routes.login}>

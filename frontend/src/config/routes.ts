@@ -4,10 +4,21 @@ export const Routes = {
   login: '/auth/login',
   register: '/auth/register',
 
-  vacancies: '/',
-  newVacancy: '/new-vacancy',
-  vacancy: (id: string) => `/vacancies/${id}`,
-  updateVacancy: (id: string) => `/vacancies/${id}/edit`,
+  candidate: {
+    vacancies: '/candidate/vacancies',
+    vacancy: (id: string) => `/candidate/vacancies/${id}`,
 
-  responses: '/responses',
+    responses: '/candidate/responses',
+  },
+
+  recruiter: {
+    vacancies: '/recruiter/vacancies',
+    vacancy: (id: string) => `/recruiter/vacancies/${id}`,
+
+    responses: '/recruiter/responses',
+  },
+
+  // newVacancy: '/new-vacancy',
+  // vacancy: (id: string) => `/vacancies/${id}`,
+  // updateVacancy: (id: string) => `/vacancies/${id}/edit`,
 }

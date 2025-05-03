@@ -6,9 +6,7 @@ import { useVacancies } from '@/api/vacancies/get-vacancies'
 import RemoteData from '@/components/special/RemoteData'
 import VacancyCard from '@/components/base/vacancy/VacancyCard'
 import { Routes } from '@/config/routes'
-import Page from '@/components/special/Page'
 import { Button } from '@/components/ui/button'
-import { useMe } from '@/api/me/get-me'
 import { UserRole } from '@/types/entities/user'
 import { Input } from '@/components/ui/input'
 import {
@@ -29,9 +27,11 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 
-const VacanciesPageContent = () => {
-  const me = useMe()
+interface Props {
+  role: UserRole
+}
 
+export default function Vacancies({ role }: Props) {
   const [query, setQuery] = useState('')
   const [scope, setScope] = useState('null')
   const [page, setPage] = useState(1)
@@ -48,8 +48,8 @@ const VacanciesPageContent = () => {
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between gap-8">
         <h1 className="text-4xl font-extrabold">Вакансии</h1>
-        {me.status === 'success' && me.value.role === UserRole.Recruiter && (
-          <Link to={Routes.newVacancy}>
+        {role === UserRole.Recruiter && (
+          <Link to={Routes.home}>
             <Button>
               <PlusIcon />
               Добавить
@@ -88,7 +88,15 @@ const VacanciesPageContent = () => {
             {vacancies.data.length ? (
               <div className="flex flex-col gap-6">
                 {vacancies.data.map((vacancy) => (
-                  <VacancyCard key={vacancy.id} vacancy={vacancy} />
+                  <VacancyCard
+                    key={vacancy.id}
+                    vacancy={vacancy}
+                    role={role}
+                    link={{
+                      [UserRole.Recruiter]: Routes.recruiter.vacancy,
+                      [UserRole.Candidate]: Routes.candidate.vacancy,
+                    }[role](vacancy.id)}
+                  />
                 ))}
               </div>
             ) : (
@@ -148,13 +156,5 @@ const VacanciesPageContent = () => {
         )}
       />
     </div>
-  )
-}
-
-export default function VacancyPage() {
-  return (
-    <Page>
-      <VacanciesPageContent />
-    </Page>
   )
 }
