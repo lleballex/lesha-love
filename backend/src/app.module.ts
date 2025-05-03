@@ -52,6 +52,6 @@ import { MeModule } from '@/me/me.module'
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('*')
+    consumer.apply(AuthMiddleware).forRoutes('*path')
   }
 }
