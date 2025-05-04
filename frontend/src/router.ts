@@ -10,6 +10,7 @@ import RecruiterVacanciesPage from '@/components/pages/recruiter/RecruiterVacanc
 import RecruiterResponsesPage from '@/components/pages/recruiter/RecruiterResponsesPage'
 import RecruiterVacancyPage from '@/components/pages/recruiter/RecruiterVacancyPage'
 import RecruiterCreateVacancyPage from '@/components/pages/recruiter/RecruiterCreateVacancyPage'
+import RecruiterUpdateVacancyPage from './components/pages/recruiter/RecruiterUpdateVacancyPage'
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
           {
             path: 'vacancies/:id',
             Component: RecruiterVacancyPage,
+          },
+          {
+            path: 'vacancies/:id/edit',
+            Component: RecruiterUpdateVacancyPage,
           },
           {
             path: 'responses',

@@ -6,7 +6,7 @@ import {
   // HttpCode,
   // HttpStatus,
   Param,
-  // Patch,
+  Patch,
   Post,
   Query,
   Req,
@@ -21,7 +21,7 @@ import { IsRecruiterGuard } from '@/auth/guards/is-recruiter.guard'
 
 import { VacanciesService } from './vacancies.service'
 import { CreateVacancyDto } from './dto/create-vacancy.dto'
-// import { UpdateVacancyDto } from './dto/update-vacancy.dto'
+import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 
 @Controller('vacancies')
@@ -52,6 +52,19 @@ export class VacanciesController {
     return this.vacanciesService.findOne(id)
   }
 
+  @Patch(':id')
+  @UseGuards(IsRecruiterGuard)
+  @ApiOperation({
+    summary: 'Update vacancy by id. Only available for recruiters',
+  })
+  update(
+    @Param('id') id: string,
+    @Body() body: UpdateVacancyDto,
+    @Req() req: Request,
+  ) {
+    return this.vacanciesService.update(id, body, req.user!.id)
+  }
+
   @Get(':id/my-response')
   @UseGuards(IsCandidateGuard)
   @ApiOperation({
@@ -75,14 +88,6 @@ export class VacanciesController {
       vacancyId: id,
     })
   }
-
-  // @Patch(':id')
-  // @ApiOperation({
-  //   summary: 'Update user by id',
-  // })
-  // update(@Param('id') id: string, @Body() body: UpdateVacancyDto) {
-  //   return this.vacanciesService.update(id, body)
-  // }
 
   // @Delete(':id')
   // @HttpCode(HttpStatus.NO_CONTENT)

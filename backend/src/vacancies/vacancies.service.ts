@@ -11,6 +11,7 @@ import { Vacancy } from './entities/vacancy.entity'
 // import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 import { CreateVacancyDto } from './dto/create-vacancy.dto'
+import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 
 @Injectable()
 export class VacanciesService {
@@ -91,6 +92,35 @@ export class VacanciesService {
     })
 
     return this.vacanciesRepo.save(vacancy)
+  }
+
+  async update(id: string, dto: UpdateVacancyDto, userId: string) {
+    const user = await this.usersService.findOne(userId)
+    const vacancy = await this.findOne(id)
+
+    if (!user.recruiter) {
+      throw new ForbiddenException('User must have filled recruiter profile')
+    }
+
+    if (vacancy.recruiter?.id !== user.recruiter.id) {
+      throw new ForbiddenException(
+        'You have no access to act with this vacancy',
+      )
+    }
+
+    await this.vacanciesRepo.update(
+      { id },
+      {
+        ...dto,
+        scope: dto.scope
+          ? {
+              id: dto.scope,
+            }
+          : undefined,
+      },
+    )
+
+    return this.findOne(id)
   }
 
   // async update(id: string, dto: UpdateVacancyDto) {

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { ArchiveIcon, PenIcon, TrashIcon } from 'lucide-react'
+import { Link } from 'react-router'
 
 import { useVacancy } from '@/api/vacancies/get-vacancy'
 import RemoteData from '@/components/special/RemoteData'
@@ -15,6 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
+import { Routes } from '@/config/routes'
 
 import VacancyResponses from './VacancyResponses'
 
@@ -51,10 +53,12 @@ export default function Vacancy({ id, role }: Props) {
                   <Button onClick={createMyResponse}>Откликнуться</Button>
                 )}
               {role === UserRole.Recruiter && (
-                <Button>
-                  <PenIcon />
-                  Изменить
-                </Button>
+                <Link to={Routes.recruiter.updateVacancy(vacancy.id)}>
+                  <Button>
+                    <PenIcon />
+                    Изменить
+                  </Button>
+                </Link>
               )}
               {role === UserRole.Recruiter && (
                 <Button variant="secondary">
@@ -83,7 +87,7 @@ export default function Vacancy({ id, role }: Props) {
           )}
 
           <div className="flex items-start gap-8">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 flex-grow">
               <div className="flex gap-8">
                 <Card className="w-full">
                   <CardContent className="flex flex-col gap-3">

@@ -7,11 +7,12 @@ import {
   IsUUID,
   Min,
 } from 'class-validator'
+
 import {
   VacancyWorkExperience,
   VacancyWorkFormat,
   VacancyWorkSchedule,
-} from '../entities/vacancy.entity'
+} from '@/vacancies/entities/vacancy.entity'
 
 export class CreateVacancyDto {
   @IsString()
