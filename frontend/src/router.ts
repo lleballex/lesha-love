@@ -9,6 +9,7 @@ import CandidateResponsesPage from '@/components/pages/candidate/CandidateRespon
 import RecruiterVacanciesPage from '@/components/pages/recruiter/RecruiterVacanciesPage'
 import RecruiterResponsesPage from '@/components/pages/recruiter/RecruiterResponsesPage'
 import RecruiterVacancyPage from '@/components/pages/recruiter/RecruiterVacancyPage'
+import RecruiterCreateVacancyPage from '@/components/pages/recruiter/RecruiterCreateVacancyPage'
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: 'recruiter',
         children: [
+          {
+            path: 'new-vacancy',
+            Component: RecruiterCreateVacancyPage,
+          },
           {
             path: 'vacancies',
             Component: RecruiterVacanciesPage,
