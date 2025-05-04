@@ -1,4 +1,3 @@
-import { useParams } from 'react-router'
 import dayjs from 'dayjs'
 
 import { useVacancy } from '@/api/vacancies/get-vacancy'
@@ -15,24 +14,24 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
+import { ArchiveIcon, PenIcon, TrashIcon } from 'lucide-react'
 
 interface Props {
+  id: string
   role: UserRole
 }
 
-export default function Vacancy({ role }: Props) {
-  const { id: vacancyId } = useParams()
-
-  const vacancy = useVacancy({ id: vacancyId! })
+export default function Vacancy({ id, role }: Props) {
+  const vacancy = useVacancy({ id })
   const myResponse = useMyResponse(
-    { vacancyId: vacancyId! },
+    { vacancyId: id },
     { enabled: role === UserRole.Candidate },
   )
 
   const { mutate: createMyResponse_ } = useCreateMyResponse()
   const createMyResponse = () => {
     createMyResponse_({
-      vacancyId: vacancyId!,
+      vacancyId: id,
     })
   }
 
@@ -43,10 +42,30 @@ export default function Vacancy({ role }: Props) {
         <div className="flex flex-col gap-8">
           <div className="flex items-center justify-between gap-8">
             <h1 className="text-4xl font-extrabold">{vacancy.title}</h1>
-            {myResponse.status === 'error' &&
-              myResponse.error.status === 404 && (
-                <Button onClick={createMyResponse}>Откликнуться</Button>
+            <div className="flex items-center gap-4">
+              {role === UserRole.Candidate &&
+                myResponse.status === 'error' &&
+                myResponse.error.status === 404 && (
+                  <Button onClick={createMyResponse}>Откликнуться</Button>
+                )}
+              {role === UserRole.Recruiter && (
+                <Button>
+                  <PenIcon />
+                  Изменить
+                </Button>
               )}
+              {role === UserRole.Recruiter && (
+                <Button variant="secondary">
+                  <ArchiveIcon />В архив
+                </Button>
+              )}
+              {role === UserRole.Recruiter && (
+                <Button variant="destructive">
+                  <TrashIcon />
+                  Удалить
+                </Button>
+              )}
+            </div>
           </div>
 
           {vacancy.recruiter && (

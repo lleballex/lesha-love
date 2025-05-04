@@ -12,13 +12,11 @@ export const Routes = {
   },
 
   recruiter: {
+    newVacancy: '/recruiter/new-vacancy',
     vacancies: '/recruiter/vacancies',
     vacancy: (id: string) => `/recruiter/vacancies/${id}`,
+    updateVacancy: (id: string) => `/recruiter/vacancies/${id}/edit`,
 
     responses: '/recruiter/responses',
   },
-
-  // newVacancy: '/new-vacancy',
-  // vacancy: (id: string) => `/vacancies/${id}`,
-  // updateVacancy: (id: string) => `/vacancies/${id}/edit`,
 }

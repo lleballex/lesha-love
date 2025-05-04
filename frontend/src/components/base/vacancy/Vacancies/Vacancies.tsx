@@ -50,7 +50,7 @@ export default function Vacancies({ role }: Props) {
       <div className="flex items-center justify-between gap-8">
         <h1 className="text-4xl font-extrabold">Вакансии</h1>
         {role === UserRole.Recruiter && (
-          <Link to={Routes.home}>
+          <Link to={Routes.recruiter.newVacancy}>
             <Button>
               <PlusIcon />
               Добавить

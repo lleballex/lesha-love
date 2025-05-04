@@ -28,10 +28,10 @@ const HeaderLink = ({
 }) => {
   return (
     <NavLink to={link}>
-      {({ isActive }) => (
+      {() => (
         <span
           className={cn('text-sm hover:underline underline-offset-4', {
-            underline: isActive,
+            // underline: isActive,
           })}
         >
           {children}
@@ -68,8 +68,17 @@ export default function RootLayoutHeader() {
           <>
             <HeaderLink link={Routes.candidate.vacancies}>Вакансии</HeaderLink>
             <HeaderLink link={Routes.candidate.responses}>
-              Мои откликии
+              Мои отклики
             </HeaderLink>
+          </>
+        )}
+
+        {me.status === 'success' && me.value.role === UserRole.Recruiter && (
+          <>
+            <HeaderLink link={Routes.recruiter.vacancies}>
+              Мои вакансии
+            </HeaderLink>
+            <HeaderLink link={Routes.recruiter.responses}>Отклики</HeaderLink>
           </>
         )}
 

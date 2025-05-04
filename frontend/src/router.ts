@@ -5,7 +5,10 @@ import LoginPage from '@/components/pages/auth/LoginPage'
 import HomePage from '@/components/pages/HomePage/HomePage'
 import CandidateVacanciesPage from '@/components/pages/candidate/CandidateVacanciesPage'
 import CandidateVacancyPage from '@/components/pages/candidate/CandidateVacancyPage'
-import CandidateResponsesPage from '@/components/pages/candidate/CandidateResponsesPage/CandidateResponsesPage'
+import CandidateResponsesPage from '@/components/pages/candidate/CandidateResponsesPage'
+import RecruiterVacanciesPage from '@/components/pages/recruiter/RecruiterVacanciesPage'
+import RecruiterResponsesPage from '@/components/pages/recruiter/RecruiterResponsesPage'
+import RecruiterVacancyPage from '@/components/pages/recruiter/RecruiterVacancyPage'
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +42,23 @@ export const router = createBrowserRouter([
           {
             path: 'responses',
             Component: CandidateResponsesPage,
+          },
+        ],
+      },
+      {
+        path: 'recruiter',
+        children: [
+          {
+            path: 'vacancies',
+            Component: RecruiterVacanciesPage,
+          },
+          {
+            path: 'vacancies/:id',
+            Component: RecruiterVacancyPage,
+          },
+          {
+            path: 'responses',
+            Component: RecruiterResponsesPage,
           },
         ],
       },
