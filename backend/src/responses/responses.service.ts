@@ -10,10 +10,11 @@ import { Repository } from 'typeorm'
 import { VacancyStatus } from '@/vacancies/entities/vacancy.entity'
 import { VacanciesService } from '@/vacancies/vacancies.service'
 import { UsersService } from '@/users/users.service'
-
-import { Response } from './entities/response.entity'
-import { FindAllResponsesDto } from './dto/find-all-responses.dto'
 import { User } from '@/users/entities/user.entity'
+
+import { Response, ResponseStatus } from './entities/response.entity'
+import { FindAllResponsesDto } from './dto/find-all-responses.dto'
+import { ChangeResponseStatusDto } from './dto/change-response-status.dto'
 
 @Injectable()
 export class ResponsesService {
@@ -24,6 +25,13 @@ export class ResponsesService {
     private readonly vacanciesService: VacanciesService,
     private readonly usersService: UsersService,
   ) {}
+
+  findOne(id: string) {
+    return this.responsesRepo.findOneOrFail({
+      where: { id },
+      relations: ['vacancy', 'vacancy.recruiter'],
+    })
+  }
 
   async findAll(dto: FindAllResponsesDto, userId?: string) {
     if (!dto.byCurCandidate && !dto.byCurRecruiter) {
@@ -122,6 +130,35 @@ export class ResponsesService {
       candidate: { id: user.candidate.id },
       vacancy: { id: vacancy.id },
     })
+
+    return this.responsesRepo.save(response)
+  }
+
+  async changeStatus(
+    id: string,
+    userId: string,
+    status: ResponseStatus.Approved | ResponseStatus.Rejected,
+    dto: ChangeResponseStatusDto,
+  ) {
+    const response = await this.findOne(id)
+    const user = await this.usersService.findOne(userId)
+
+    if (!user.recruiter) {
+      throw new ForbiddenException('User must have filled recruiter profile')
+    }
+
+    if (response.vacancy?.recruiter?.id !== user.recruiter.id) {
+      throw new ForbiddenException(
+        'You have no access to act with this response',
+      )
+    }
+
+    if (response.status !== ResponseStatus.Pending) {
+      throw new ForbiddenException('Response must be in pending status')
+    }
+
+    response.status = status
+    response.message = dto.message
 
     return this.responsesRepo.save(response)
   }
