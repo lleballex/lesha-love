@@ -1,5 +1,6 @@
-import { Type } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import {
+  IsBoolean,
   IsEnum,
   IsInt,
   IsOptional,
@@ -22,6 +23,11 @@ export class FindAllVacanciesDto {
   @IsEnum(VacancyStatus)
   @IsOptional()
   status?: VacancyStatus
+
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  byCurRecruiter?: boolean
 
   @IsInt()
   @IsPositive()

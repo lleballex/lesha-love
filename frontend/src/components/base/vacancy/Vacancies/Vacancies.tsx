@@ -41,6 +41,7 @@ export default function Vacancies({ role }: Props) {
   const vacancies = useVacancies({
     query: query || undefined,
     scope: scope === 'null' ? undefined : scope,
+    byCurRecruiter: role === UserRole.Recruiter,
     page,
   })
 

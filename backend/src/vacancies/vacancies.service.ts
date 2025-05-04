@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EntityNotFoundError, Repository } from 'typeorm'
+
+import { UsersService } from '@/users/users.service'
 
 import { Vacancy } from './entities/vacancy.entity'
 import { UpdateVacancyDto } from './dto/update-vacancy.dto'
@@ -11,9 +13,11 @@ export class VacanciesService {
   constructor(
     @InjectRepository(Vacancy)
     private readonly vacanciesRepo: Repository<Vacancy>,
+
+    private readonly usersService: UsersService,
   ) {}
 
-  async findAll(dto: FindAllVacanciesDto) {
+  async findAll(dto: FindAllVacanciesDto, userId?: string) {
     const qb = this.vacanciesRepo
       .createQueryBuilder('vacancy')
       .leftJoinAndSelect('vacancy.scope', 'scope')
@@ -27,6 +31,22 @@ export class VacanciesService {
     }
     if (dto.status) {
       qb.andWhere('vacancy.status = :status', { status: dto.status })
+    }
+
+    if (dto.byCurRecruiter) {
+      if (!userId) {
+        throw new ForbiddenException('You must be authorizated')
+      }
+
+      const user = await this.usersService.findOne(userId)
+
+      if (!user.recruiter) {
+        throw new ForbiddenException('User must have filled recruiter profile')
+      }
+
+      qb.andWhere('recruiter.id = :recruiterId', {
+        recruiterId: user.recruiter.id,
+      })
     }
 
     qb.orderBy('vacancy.createdAt', 'DESC')

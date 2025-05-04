@@ -7,6 +7,7 @@ interface Params {
   query?: string
   scope?: string
   status?: VacancyStatus
+  byCurRecruiter?: boolean
   page?: number
   take?: number
 }

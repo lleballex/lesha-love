@@ -32,8 +32,8 @@ export class VacanciesController {
 
   @Get()
   @ApiOperation({ summary: 'Get all vacancies' })
-  findAll(@Query() query: FindAllVacanciesDto) {
-    return this.vacanciesService.findAll(query)
+  findAll(@Query() query: FindAllVacanciesDto, @Req() req: Request) {
+    return this.vacanciesService.findAll(query, req.user?.id)
   }
 
   // @Post()
