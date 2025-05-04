@@ -5,6 +5,7 @@ import { createUseQuery } from '@/api/utils/create-use-query'
 interface Params {
   byCurRecruiter?: boolean
   byCurCandidate?: boolean
+  vacancy?: string
 }
 
 export const useResponses = createUseQuery('responses', (params: Params) =>

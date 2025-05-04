@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -25,6 +26,12 @@ export class ResponsesService {
   ) {}
 
   async findAll(dto: FindAllResponsesDto, userId?: string) {
+    if (!dto.byCurCandidate && !dto.byCurRecruiter) {
+      throw new BadRequestException(
+        'Either "byCurRecruiter" or "byCurCandidate" must be provided',
+      )
+    }
+
     let user: User | null = null
 
     if (userId) {
@@ -37,6 +44,11 @@ export class ResponsesService {
       .leftJoinAndSelect('vacancy.scope', 'vacancy_scope')
       .leftJoinAndSelect('vacancy.recruiter', 'recruiter')
       .leftJoinAndSelect('response.candidate', 'candidate')
+      .leftJoinAndSelect('candidate.user', 'candidate_user')
+
+    if (dto.vacancy) {
+      qb.andWhere('vacancy.id = :vacancyId', { vacancyId: dto.vacancy })
+    }
 
     if (dto.byCurCandidate) {
       if (!user) {

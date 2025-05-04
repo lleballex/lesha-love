@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer'
-import { IsBoolean, IsOptional } from 'class-validator'
+import { IsBoolean, IsOptional, IsUUID } from 'class-validator'
 
 export class FindAllResponsesDto {
   @IsBoolean()
@@ -11,4 +11,8 @@ export class FindAllResponsesDto {
   @IsOptional()
   @Transform(({ value }) => value === 'true' || value === true)
   byCurRecruiter?: boolean
+
+  @IsUUID(4)
+  @IsOptional()
+  vacancy?: string
 }
