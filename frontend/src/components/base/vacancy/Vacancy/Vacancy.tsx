@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { ArchiveIcon, PenIcon, TrashIcon } from 'lucide-react'
 
 import { useVacancy } from '@/api/vacancies/get-vacancy'
 import RemoteData from '@/components/special/RemoteData'
@@ -14,7 +15,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
-import { ArchiveIcon, PenIcon, TrashIcon } from 'lucide-react'
+
+import VacancyResponses from './VacancyResponses'
 
 interface Props {
   id: string
@@ -168,6 +170,10 @@ export default function Vacancy({ id, role }: Props) {
                   )}
                 </CardContent>
               </Card>
+
+              {role === UserRole.Recruiter && (
+                <VacancyResponses vacancy={vacancy} />
+              )}
             </div>
 
             <div className="w-[300px] shrink-0">
