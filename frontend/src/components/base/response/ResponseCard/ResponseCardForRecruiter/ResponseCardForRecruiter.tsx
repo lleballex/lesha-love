@@ -7,6 +7,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { ResponseStatus as IResponseStatus } from '@/types/entities/response'
 import { Button } from '@/components/ui/button'
+import ApproveResponseModal from '@/components/base/response/ApproveResponseModal'
+import RejectResponseModal from '@/components/base/response/RejectResponseModal'
 
 interface Props {
   response: Response
@@ -63,8 +65,12 @@ export default function ResponseCardForRecruiter({ response }: Props) {
 
         {response.status === IResponseStatus.Pending ? (
           <div className="flex gap-4">
-            <Button>Принять</Button>
-            <Button variant="destructive">Отказать</Button>
+            <ApproveResponseModal response={response}>
+              <Button>Принять</Button>
+            </ApproveResponseModal>
+            <RejectResponseModal response={response}>
+              <Button variant="destructive">Отказать</Button>
+            </RejectResponseModal>
           </div>
         ) : (
           <div className="flex flex-col gap-2 text-sm">
