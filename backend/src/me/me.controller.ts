@@ -4,28 +4,15 @@ import { Request } from 'express'
 
 import { IsAuthedGuard } from '@/auth/guards/is-authed.guard'
 import { UsersService } from '@/users/users.service'
-import { IsCandidateGuard } from '@/auth/guards/is-candidate.guard'
-
-import { MeService } from './me.service'
 
 @Controller('me')
 export class MeController {
-  constructor(
-    private readonly meService: MeService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
   @UseGuards(IsAuthedGuard)
   @ApiOperation({ summary: 'Get authenticated user' })
   me(@Req() req: Request) {
     return this.usersService.findOne(req.user!.id)
-  }
-
-  @Get('responses')
-  @UseGuards(IsCandidateGuard)
-  @ApiOperation({ summary: 'Get responses of authenticated candidate' })
-  findMyResponses(@Req() req: Request) {
-    return this.meService.findMyResponses(req.user!.id)
   }
 }

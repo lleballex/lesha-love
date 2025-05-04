@@ -6,6 +6,7 @@ import { VacanciesModule } from '@/vacancies/vacancies.module'
 
 import { Response } from './entities/response.entity'
 import { ResponsesService } from './responses.service'
+import { ResponsesController } from './responses.controller'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ResponsesService } from './responses.service'
     forwardRef(() => VacanciesModule),
     UsersModule,
   ],
+  controllers: [ResponsesController],
   providers: [ResponsesService],
   exports: [ResponsesService],
 })

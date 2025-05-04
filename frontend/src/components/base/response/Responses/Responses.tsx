@@ -1,4 +1,4 @@
-import { useMyResponses } from '@/api/responses/get-my-responses'
+import { useResponses } from '@/api/responses/get-responses'
 import ResponseCard from '@/components/base/response/ResponseCard'
 import RemoteData from '@/components/special/RemoteData'
 import { Routes } from '@/config/routes'
@@ -9,7 +9,10 @@ interface Props {
 }
 
 export default function Responses({ role }: Props) {
-  const responses = useMyResponses()
+  const responses = useResponses({
+    byCurCandidate: role === UserRole.Candidate,
+    byCurRecruiter: role === UserRole.Recruiter,
+  })
 
   return (
     <div className="flex flex-col gap-8">
