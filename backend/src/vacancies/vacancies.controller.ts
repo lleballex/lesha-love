@@ -1,5 +1,5 @@
 import {
-  // Body,
+  Body,
   Controller,
   // Delete,
   Get,
@@ -17,9 +17,10 @@ import { Request } from 'express'
 
 import { ResponsesService } from '@/responses/responses.service'
 import { IsCandidateGuard } from '@/auth/guards/is-candidate.guard'
+import { IsRecruiterGuard } from '@/auth/guards/is-recruiter.guard'
 
 import { VacanciesService } from './vacancies.service'
-// import { CreateVacancyDto } from './dto/create-vacancy.dto'
+import { CreateVacancyDto } from './dto/create-vacancy.dto'
 // import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 
@@ -36,11 +37,12 @@ export class VacanciesController {
     return this.vacanciesService.findAll(query, req.user?.id)
   }
 
-  // @Post()
-  // @ApiOperation({ summary: 'Create vacancy' })
-  // create(@Body() body: CreateVacancyDto) {
-  //   return this.vacanciesService.create(body)
-  // }
+  @Post()
+  @UseGuards(IsRecruiterGuard)
+  @ApiOperation({ summary: 'Create vacancy. Only available for recruiters' })
+  create(@Body() body: CreateVacancyDto, @Req() req: Request) {
+    return this.vacanciesService.create(body, req.user!.id)
+  }
 
   @Get(':id')
   @ApiOperation({

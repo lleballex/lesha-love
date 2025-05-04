@@ -1,12 +1,16 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { EntityNotFoundError, Repository } from 'typeorm'
+import {
+  //  EntityNotFoundError,
+  Repository,
+} from 'typeorm'
 
 import { UsersService } from '@/users/users.service'
 
 import { Vacancy } from './entities/vacancy.entity'
-import { UpdateVacancyDto } from './dto/update-vacancy.dto'
+// import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
+import { CreateVacancyDto } from './dto/create-vacancy.dto'
 
 @Injectable()
 export class VacanciesService {
@@ -69,24 +73,39 @@ export class VacanciesService {
     })
   }
 
-  create(data: Partial<Vacancy>) {
-    const vacancy = this.vacanciesRepo.create(data)
-    return this.vacanciesRepo.save(vacancy)
-  }
+  async create(dto: CreateVacancyDto, userId: string) {
+    const user = await this.usersService.findOne(userId)
 
-  async update(id: string, dto: UpdateVacancyDto) {
-    const vacancy = await this.vacanciesRepo.preload({ id, ...dto })
-
-    if (!vacancy) {
-      throw new EntityNotFoundError(Vacancy, id)
+    if (!user.recruiter) {
+      throw new ForbiddenException('User must have filled recruiter profile')
     }
 
+    const vacancy = this.vacanciesRepo.create({
+      ...dto,
+      scope: {
+        id: dto.scope,
+      },
+      recruiter: {
+        id: user.recruiter.id,
+      },
+    })
+
     return this.vacanciesRepo.save(vacancy)
   }
 
-  async delete(id: string) {
-    const vacancy = await this.findOne(id)
-    await this.vacanciesRepo.remove(vacancy)
-    return vacancy
-  }
+  // async update(id: string, dto: UpdateVacancyDto) {
+  //   const vacancy = await this.vacanciesRepo.preload({ id, ...dto })
+
+  //   if (!vacancy) {
+  //     throw new EntityNotFoundError(Vacancy, id)
+  //   }
+
+  //   return this.vacanciesRepo.save(vacancy)
+  // }
+
+  // async delete(id: string) {
+  //   const vacancy = await this.findOne(id)
+  //   await this.vacanciesRepo.remove(vacancy)
+  //   return vacancy
+  // }
 }
