@@ -16,6 +16,7 @@ export const responseStatuses: Record<ResponseStatus, string> = {
 
 export interface Response extends BaseEntity {
   status: ResponseStatus
+  message: string | null
   vacancy?: Vacancy
   candidate?: Candidate
 }

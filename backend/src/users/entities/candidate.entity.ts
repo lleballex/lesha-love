@@ -16,6 +16,27 @@ export class Candidate extends BaseEntity {
   @Column('varchar', { nullable: true })
   patronymic: string | null
 
+  @Column('varchar')
+  jobName: string
+
+  @Column('varchar')
+  city: string
+
+  @Column('int', { nullable: true })
+  salaryFrom: number | null
+
+  @Column('varchar')
+  phone: string
+
+  @Column('text')
+  description: string
+
+  @Column('text')
+  skills: string
+
+  @Column('timestamptz')
+  bornAt: Date
+
   @OneToOne(() => User, (user) => user.candidate, {
     nullable: false,
     onDelete: 'CASCADE',

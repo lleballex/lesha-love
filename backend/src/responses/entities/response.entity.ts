@@ -15,6 +15,9 @@ export class Response extends BaseEntity {
   @Column({ enum: ResponseStatus, default: ResponseStatus.Pending })
   status: ResponseStatus
 
+  @Column('varchar', { nullable: true })
+  message: string | null
+
   @ManyToOne(() => Vacancy, (vacancy) => vacancy.responses, {
     nullable: false,
     onDelete: 'CASCADE',

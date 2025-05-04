@@ -19,6 +19,7 @@ export const responsesSeed: ResponseSeed[] = [
     candidate: {
       id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
+    message: null,
   },
   {
     id: 'e6407993-25a4-4854-b689-2629dc4ad053',
@@ -31,6 +32,7 @@ export const responsesSeed: ResponseSeed[] = [
     candidate: {
       id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
+    message: 'Ждем вас завтра на набережной. Обсудим детали',
   },
   {
     id: 'e6407993-25a4-4854-b689-2629dc4ad054',
@@ -43,5 +45,6 @@ export const responsesSeed: ResponseSeed[] = [
     candidate: {
       id: 'd269c660-c0b0-4cb2-a4a5-76e5bbfbc86a',
     },
+    message: 'Вы нам не подходите жестко',
   },
 ]

@@ -13,6 +13,13 @@ export const candidatesSeed: CandidateSeed[] = [
     name: 'Candidate',
     surname: 'Candidate',
     patronymic: 'Candidate',
+    jobName: 'Frontend-разработчик',
+    city: 'г. Иваново',
+    salaryFrom: 10000,
+    phone: '8 888 888 88-88',
+    description: 'Hello world!',
+    skills: 'JavaScript, TypeScript, React, Next.js',
+    bornAt: new Date(2004, 1, 1),
     user: {
       id: 'c84f8cf2-ac10-4e01-a6d8-2383b3130e9d',
     },
