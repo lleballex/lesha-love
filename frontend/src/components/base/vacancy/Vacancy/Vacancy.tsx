@@ -17,6 +17,7 @@ import { useCreateMyResponse } from '@/api/responses/create-my-response'
 import { useMyResponse } from '@/api/responses/get-my-response'
 import { responseStatuses } from '@/types/entities/response'
 import { Routes } from '@/config/routes'
+import DeleteVacancyModal from '@/components/base/vacancy/DeleteVacancyModal'
 
 import VacancyResponses from './VacancyResponses'
 
@@ -66,10 +67,12 @@ export default function Vacancy({ id, role }: Props) {
                 </Button>
               )}
               {role === UserRole.Recruiter && (
-                <Button variant="destructive">
-                  <TrashIcon />
-                  Удалить
-                </Button>
+                <DeleteVacancyModal vacancy={vacancy}>
+                  <Button variant="destructive">
+                    <TrashIcon />
+                    Удалить
+                  </Button>
+                </DeleteVacancyModal>
               )}
             </div>
           </div>
