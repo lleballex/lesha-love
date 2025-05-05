@@ -10,7 +10,7 @@ export enum VacancyStatus {
 
 export const vacancyStatuses: Record<VacancyStatus, string> = {
   [VacancyStatus.Active]: 'Активна',
-  [VacancyStatus.Closed]: 'Закрыта',
+  [VacancyStatus.Closed]: 'В архиве',
 }
 
 export enum VacancyWorkExperience {

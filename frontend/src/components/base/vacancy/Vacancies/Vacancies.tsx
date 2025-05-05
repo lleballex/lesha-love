@@ -26,6 +26,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { VacancyStatus } from '@/types/entities/vacancy'
 
 interface Props {
   role: UserRole
@@ -42,6 +43,7 @@ export default function Vacancies({ role }: Props) {
     query: query || undefined,
     scope: scope === 'null' ? undefined : scope,
     byCurRecruiter: role === UserRole.Recruiter,
+    status: role === UserRole.Candidate ? VacancyStatus.Active : undefined,
     page,
   })
 

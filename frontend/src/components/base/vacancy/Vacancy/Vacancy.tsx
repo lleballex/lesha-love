@@ -1,10 +1,16 @@
 import dayjs from 'dayjs'
-import { ArchiveIcon, PenIcon, TrashIcon } from 'lucide-react'
+import {
+  ArchiveIcon,
+  ArchiveRestoreIcon,
+  PenIcon,
+  TrashIcon,
+} from 'lucide-react'
 import { Link } from 'react-router'
 
 import { useVacancy } from '@/api/vacancies/get-vacancy'
 import RemoteData from '@/components/special/RemoteData'
 import {
+  VacancyStatus,
   vacancyWorkExperiences,
   vacancyWorkFormats,
   vacancyWorkSchedules,
@@ -20,6 +26,7 @@ import { Routes } from '@/config/routes'
 import DeleteVacancyModal from '@/components/base/vacancy/DeleteVacancyModal'
 
 import VacancyResponses from './VacancyResponses'
+import ChangeVacancyStatusModal from '../ChangeVacancyStatusModal'
 
 interface Props {
   id: string
@@ -62,9 +69,21 @@ export default function Vacancy({ id, role }: Props) {
                 </Link>
               )}
               {role === UserRole.Recruiter && (
-                <Button variant="secondary">
-                  <ArchiveIcon />В архив
-                </Button>
+                <ChangeVacancyStatusModal vacancy={vacancy}>
+                  <Button variant="secondary">
+                    {vacancy.status === VacancyStatus.Active && (
+                      <>
+                        <ArchiveIcon />В архив
+                      </>
+                    )}
+                    {vacancy.status === VacancyStatus.Closed && (
+                      <>
+                        <ArchiveRestoreIcon />
+                        Активировать
+                      </>
+                    )}
+                  </Button>
+                </ChangeVacancyStatusModal>
               )}
               {role === UserRole.Recruiter && (
                 <DeleteVacancyModal vacancy={vacancy}>
