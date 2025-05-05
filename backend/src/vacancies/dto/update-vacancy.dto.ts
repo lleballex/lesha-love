@@ -9,6 +9,7 @@ import {
 } from 'class-validator'
 
 import {
+  VacancyStatus,
   VacancyWorkExperience,
   VacancyWorkFormat,
   VacancyWorkSchedule,
@@ -18,12 +19,12 @@ export class UpdateVacancyDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  title: string
+  title?: string
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  description: string
+  description?: string
 
   @IsString()
   @IsNotEmpty()
@@ -42,15 +43,15 @@ export class UpdateVacancyDto {
 
   @IsEnum(VacancyWorkExperience)
   @IsOptional()
-  workExperience: VacancyWorkExperience
+  workExperience?: VacancyWorkExperience
 
   @IsEnum(VacancyWorkSchedule)
   @IsOptional()
-  workSchedule: VacancyWorkSchedule
+  workSchedule?: VacancyWorkSchedule
 
   @IsEnum(VacancyWorkFormat)
   @IsOptional()
-  workFormat: VacancyWorkFormat
+  workFormat?: VacancyWorkFormat
 
   @IsInt()
   @Min(0)
@@ -64,5 +65,9 @@ export class UpdateVacancyDto {
 
   @IsUUID()
   @IsOptional()
-  scope: string
+  scope?: string
+
+  @IsEnum(VacancyStatus)
+  @IsOptional()
+  status?: VacancyStatus
 }
