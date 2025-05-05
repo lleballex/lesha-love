@@ -123,19 +123,22 @@ export class VacanciesService {
     return this.findOne(id)
   }
 
-  // async update(id: string, dto: UpdateVacancyDto) {
-  //   const vacancy = await this.vacanciesRepo.preload({ id, ...dto })
+  async delete(id: string, userId: string) {
+    const user = await this.usersService.findOne(userId)
+    const vacancy = await this.findOne(id)
 
-  //   if (!vacancy) {
-  //     throw new EntityNotFoundError(Vacancy, id)
-  //   }
+    if (!user.recruiter) {
+      throw new ForbiddenException('User must have filled recruiter profile')
+    }
 
-  //   return this.vacanciesRepo.save(vacancy)
-  // }
+    if (vacancy.recruiter?.id !== user.recruiter.id) {
+      throw new ForbiddenException(
+        'You have no access to act with this vacancy',
+      )
+    }
 
-  // async delete(id: string) {
-  //   const vacancy = await this.findOne(id)
-  //   await this.vacanciesRepo.remove(vacancy)
-  //   return vacancy
-  // }
+    await this.vacanciesRepo.remove(vacancy)
+
+    return vacancy
+  }
 }

@@ -1,10 +1,8 @@
 import {
   Body,
   Controller,
-  // Delete,
+  Delete,
   Get,
-  // HttpCode,
-  // HttpStatus,
   Param,
   Patch,
   Post,
@@ -65,6 +63,16 @@ export class VacanciesController {
     return this.vacanciesService.update(id, body, req.user!.id)
   }
 
+  @Delete(':id')
+  @UseGuards(IsRecruiterGuard)
+  @ApiOperation({
+    summary: 'Delete vacancy by id. Only available for recruiters',
+  })
+  delete(@Param('id') id: string, @Req() req: Request) {
+    return this.vacanciesService.delete(id, req.user!.id)
+  }
+
+  // TODO: improve
   @Get(':id/my-response')
   @UseGuards(IsCandidateGuard)
   @ApiOperation({
@@ -77,6 +85,7 @@ export class VacanciesController {
     })
   }
 
+  // TODO: improve
   @Post(':id/my-response')
   @UseGuards(IsCandidateGuard)
   @ApiOperation({
@@ -88,13 +97,4 @@ export class VacanciesController {
       vacancyId: id,
     })
   }
-
-  // @Delete(':id')
-  // @HttpCode(HttpStatus.NO_CONTENT)
-  // @ApiOperation({
-  //   summary: 'Delete vacancy by id',
-  // })
-  // async delete(@Param('id') id: string) {
-  //   await this.vacanciesService.delete(id)
-  // }
 }
