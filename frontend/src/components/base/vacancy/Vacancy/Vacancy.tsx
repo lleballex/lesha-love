@@ -211,6 +211,9 @@ export default function Vacancy({ id, role }: Props) {
                     </p>
                     {/* TODO: use ResponseStatus component */}
                     <p>{responseStatuses[myResponse.value.status]}</p>
+                    {myResponse.value.message && (
+                      <p>"{myResponse.value.message}"</p>
+                    )}
                   </CardContent>
                 </Card>
               )}

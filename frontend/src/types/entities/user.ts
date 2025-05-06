@@ -7,6 +7,11 @@ export enum UserRole {
   Candidate = 'candidate',
 }
 
+export const userRoles: Record<UserRole, string> = {
+  [UserRole.Recruiter]: 'Рекрутер',
+  [UserRole.Candidate]: 'Соискатель',
+}
+
 export interface User extends BaseEntity {
   email: string
   role: UserRole
