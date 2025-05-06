@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -30,6 +32,7 @@ export class ResponsesController {
 
   @Post(':id/approve')
   @UseGuards(IsRecruiterGuard)
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Approve pending response by id. Only available for recruiters',
   })
@@ -48,6 +51,7 @@ export class ResponsesController {
 
   @Post(':id/reject')
   @UseGuards(IsRecruiterGuard)
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Reject pending response by id. Only available for recruiters',
   })

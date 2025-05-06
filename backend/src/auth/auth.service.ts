@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { ConflictException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 
@@ -35,9 +35,12 @@ export class AuthService {
   }
 
   async register(dto: RegisterDto) {
+    if (await this.usersService.findOneForAuth(dto.email)) {
+      throw new ConflictException('User with email already exists')
+    }
+
     const hashPassword = await bcrypt.hash(dto.password, 10)
 
-    // TODO: handle unique email error
     const user = await this.usersService.create({
       ...dto,
       password: hashPassword,
