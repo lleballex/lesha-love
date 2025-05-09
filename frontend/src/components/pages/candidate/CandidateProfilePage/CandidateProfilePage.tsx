@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import dayjs from 'dayjs'
+import { useEffect } from 'react'
 
 import Page from '@/components/special/Page'
 import { Card, CardContent } from '@/components/ui/card'
@@ -26,7 +27,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useCreateCandidate } from '@/api/me/create-candidate'
 import { useUpdateCandidate } from '@/api/me/update-candidate'
 import { useMe } from '@/api/me/get-me'
-import { useEffect } from 'react'
+import { UserRole } from '@/types/entities/user'
 
 export default function CandidateProfilePage() {
   const me = useMe()
@@ -56,7 +57,7 @@ export default function CandidateProfilePage() {
   })
 
   return (
-    <Page>
+    <Page roles={[UserRole.Candidate]} protected>
       <Form {...form}>
         <form
           className="flex flex-col gap-8 max-w-[1000px]"

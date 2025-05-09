@@ -18,6 +18,7 @@ import { FormData, formResolver, getFormInitData } from './utils'
 import { useMe } from '@/api/me/get-me'
 import { useCreateRecruiter } from '@/api/me/create-recruiter'
 import { useUpdateRecruiter } from '@/api/me/update-recruiter'
+import { UserRole } from '@/types/entities/user'
 
 export default function RecruiterProfilePage() {
   const me = useMe()
@@ -47,7 +48,7 @@ export default function RecruiterProfilePage() {
   })
 
   return (
-    <Page>
+    <Page roles={[UserRole.Recruiter]} protected>
       <Form {...form}>
         <form
           className="flex flex-col gap-8 max-w-[1000px]"
