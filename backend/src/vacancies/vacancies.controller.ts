@@ -10,7 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import { Request } from 'express'
 
 import { ResponsesService } from '@/responses/responses.service'
@@ -23,6 +23,7 @@ import { UpdateVacancyDto } from './dto/update-vacancy.dto'
 import { FindAllVacanciesDto } from './dto/find-all-vacancies.dto'
 
 @Controller('vacancies')
+@ApiBearerAuth()
 export class VacanciesController {
   constructor(
     private readonly vacanciesService: VacanciesService,

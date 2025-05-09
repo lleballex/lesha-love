@@ -10,7 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import { Request } from 'express'
 
 import { IsRecruiterGuard } from '@/auth/guards/is-recruiter.guard'
@@ -21,6 +21,7 @@ import { ResponseStatus } from './entities/response.entity'
 import { ChangeResponseStatusDto } from './dto/change-response-status.dto'
 
 @Controller('responses')
+@ApiBearerAuth()
 export class ResponsesController {
   constructor(private readonly responsesService: ResponsesService) {}
 

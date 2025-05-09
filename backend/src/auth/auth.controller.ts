@@ -6,13 +6,14 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { AuthService } from './auth.service'
 
 @Controller('auth')
+@ApiBearerAuth()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

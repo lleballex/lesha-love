@@ -7,7 +7,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import { Request } from 'express'
 
 import { IsAuthedGuard } from '@/auth/guards/is-authed.guard'
@@ -22,6 +22,7 @@ import { CreateRecruiterDto } from './dto/create-recruiter.dto'
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto'
 
 @Controller('me')
+@ApiBearerAuth()
 export class MeController {
   constructor(
     private readonly meService: MeService,
