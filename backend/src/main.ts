@@ -5,13 +5,16 @@ import { ValidationPipe } from '@nestjs/common'
 import { AppModule } from '@/app.module'
 import { EntityNotFoundFilter } from '@/core/filters/entity-not-found.filter'
 import { SeederService } from '@/seeder/seeder.service'
+import { LoggingInterceptor } from '@/core/interceptors/logging.interceptor'
+import { AllExceptionsFilter } from '@/core/filters/all-exceptions.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
-  app.useGlobalFilters(new EntityNotFoundFilter())
   app.setGlobalPrefix('api')
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+  app.useGlobalFilters(new AllExceptionsFilter(), new EntityNotFoundFilter())
+  app.useGlobalInterceptors(new LoggingInterceptor())
   app.enableCors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
