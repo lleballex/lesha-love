@@ -14,11 +14,13 @@ import RecruiterCreateVacancyPage from '@/components/pages/recruiter/RecruiterCr
 import RecruiterUpdateVacancyPage from './components/pages/recruiter/RecruiterUpdateVacancyPage'
 import CandidateProfilePage from '@/components/pages/candidate/CandidateProfilePage'
 import RecruiterProfilePage from '@/components/pages/recruiter/RecruiterProfilePage'
+import ErrorPage from '@/components/pages/ErrorPage/ErrorPage'
 
 export const router = createBrowserRouter([
   {
     path: '',
     Component: RootLayout,
+    ErrorBoundary: ErrorPage,
     children: [
       {
         index: true,
