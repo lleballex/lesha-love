@@ -11,7 +11,7 @@ export enum ResponseStatus {
 export const responseStatuses: Record<ResponseStatus, string> = {
   [ResponseStatus.Pending]: 'На рассмотрении',
   [ResponseStatus.Approved]: 'Принят',
-  [ResponseStatus.Rejected]: 'Оклонен',
+  [ResponseStatus.Rejected]: 'Отклонен',
 }
 
 export interface Response extends BaseEntity {
