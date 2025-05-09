@@ -88,21 +88,37 @@ export default function RootLayoutHeader() {
           </Link>
         )}
 
-        {profile && (
+        {me.status === 'success' && (
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className="w-10 h-10">
                 <AvatarFallback>
-                  {profile.surname[0]} {profile.name[0]}
+                  {profile?.surname[0]} {profile?.name[0]}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuPortal>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>
-                  {profile.surname} {profile.name}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                {profile && (
+                  <>
+                    <DropdownMenuLabel>
+                      {profile.surname} {profile.name}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                <DropdownMenuItem asChild>
+                  <Link
+                    to={
+                      {
+                        [UserRole.Recruiter]: Routes.recruiter.profile,
+                        [UserRole.Candidate]: Routes.candidate.profile,
+                      }[me.value.role]
+                    }
+                  >
+                    Профиль
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>Выйти</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenuPortal>

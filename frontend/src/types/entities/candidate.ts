@@ -12,7 +12,7 @@ export interface Candidate extends BaseEntity {
   phone: string
   description: string
   skills: string
-  bornAt: Date
+  bornAt: string
   user?: User
   responses?: Response[]
 }
