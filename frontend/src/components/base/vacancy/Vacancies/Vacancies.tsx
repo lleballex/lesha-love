@@ -139,7 +139,7 @@ export default function Vacancies({ role }: Props) {
                   {page !== vacancies.totalPages && (
                     <PaginationItem>
                       <PaginationLink
-                        onClick={() => setPage(vacancies.totalData)}
+                        onClick={() => setPage(vacancies.totalPages)}
                       >
                         {vacancies.totalPages}
                       </PaginationLink>
